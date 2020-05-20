@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Google Map</title>
+  <style>
+    #map{
+      height:600px;
+      width:100%;
+    }
+  </style>
+</head>
+<body>
+  <center><h2><font face = "Verdana" size = "5">Restaurants nearby!</font></h2></center>
+  <div id="map"></div>
+  <script>
+    function initMap(){
+      // Map options
+      var options = {
+        zoom:14,
+        center:{lat:23.040382, lng:72.538230}//Centre
+            }
+
+      // New map
+      var map = new google.maps.Map(document.getElementById('map'), options);
+      map.setMapTypeId('hybrid');
+      //var directionDisplay = new google.maps.DirectionRenderer();
+      //var DirectionService = new google.maps.DirectionService();
+
+
+      // Listen for click on map
+
+
+
+      var markers = [
+        {
+          coords:{lat:{{lat}}, lng:{{long}}},
+          content:'<h4>You are here</h4>'
+        },
+
+        {
+          coords:{lat:23.046403,lng: 72.530976},
+          content:'<h4><a href="/restaurant/McDonalds">McDonalds</h4></a><div style="float:center; width:20%;"><img src="/static/img/mcdonalds-logo.jpg" width="120" height="80"/></div><br>'+'<br>Drive In Rd, Nilmani Society,<br> Gurukul, Ahmedabad, Gujarat 380052'
+        },
+        {
+          coords:{lat:23.046328, lng:72.530835},
+          content:'<h4><a href="/restaurant/BurgerKing">Burger King</a></h4><div style="float:center; width:20%;"><img src="/static/img/bk.png" width="120" height="80"/></div><br>'+'<br>Unit No 103A, Ground Flr,<br> Himalaya Mall, Nilmani Society,<br> Memnagar, Ahmedabad, Gujarat 380015'
+        },
+        {
+        coords:{lat:23.045681, lng:72.530418},
+        content:'<h4><a href="/restaurant/Subway">SUBWAY</h4></a><div style="float:center; width:20%;"><img src="/static/img/sub.jpg" width="120" height="80"/></div><br>'+'<br>Vastrapur, Ahmedabad,<br> Gujarat 380052'
+      },
+      {
+        coords:{lat:23.040082, lng:72.513244},
+        content:'<h4><a href="/restaurant/PizzaHut">Pizza Hut</h4></a><div style="float:center; width:20%;"><img src="/static/img/pizza.png" width="120" height="80"/></div><br>'+'<br>Shapath 3 Bld, Sarkhej - Gandhinagar Hwy,<br> Bodakdev, Ahmedabad,<br> Gujarat 380054'
+      },
+      {
+        coords:{lat:23.046292, lng:72.531256},
+        content:'<h4><a href="/restaurant/Dominos">Dominos</h4></a><div style="float:center; width:20%;"><img src="/static/img/dlogo.png" width="120" height="80"/></div><br>'+'<br>118, Ground Floor Drive In Road Himalaya Mall,<br> Drive In Rd, Memnagar,<br> Ahmedabad, Gujarat 380052'
+      }
+      ];
+
+
+
+      // Loop through markers
+      for(var i = 0;i < markers.length;i++){
+        // Add marker
+        addMarker(markers[i]);
+      }
+
+
+
+      // Add Marker Function
+      function addMarker(props){
+        var marker = new google.maps.Marker({
+          position:props.coords,
+          map:map,
+          //icon:props.iconImage
+        });
+
+        // Check for customicon
+        if(props.iconImage){
+          // Set icon image
+          marker.setIcon(props.iconImage);
+        }
+
+        if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+          marker.addListener('mouseover', function(){
+            infoWindow.open(map, marker);
+          });
+
+          marker.addListener('mouseenter', function(){
+            infoWindow.open(map, marker);
+          });
+
+          marker.addListener('mouseleave', function(){
+            infoWindow.close();
+          });
+
+          marker.addListener('click',function(){
+            infoWindow.close();
+          });
+        }
+      }/*
+      google.maps.event.addListener(map, 'click', function(event){
+        // Add marker
+        infoWindow.close();
+        //addMarker({coords:event.latLng});
+      });*/
+
+
+    }
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqJGSCO-ZKrbtBQcLflxwqG3zPcP-B2vY&callback=initMap">
+    </script>
+</body>
+</html>
